@@ -6,6 +6,7 @@ require 'pry'
 
 require_relative 'settings'
 require_relative 'client'
+require_relative 'helpers'
 
 class Main < Gosu::Window
 
@@ -14,6 +15,10 @@ class Main < Gosu::Window
     self.caption = "Squares"
 
     @client = Client.new(server, port)
+    @board_image = Gosu::Image.new(self, 'images/board_small.png')
+    @orange = Gosu::Image.new(self, 'images/orange_small.png')
+    @blue = Gosu::Image.new(self, 'images/blue_small.png')
+    @error_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
 
     @state = :running
   end
@@ -23,6 +28,7 @@ class Main < Gosu::Window
   end
 
   def draw
+
 
     draw_error_message if $error_message
   end
@@ -37,7 +43,11 @@ class Main < Gosu::Window
   end
 
   def draw_error_message
-
+    Drawing::draw_text(Drawing::text_center(self, $error_message, @error_font),
+                       SCREEN_HEIGHT / 2,
+                       $error_message,
+                       @error_font,
+                       Gosu::Color::RED)
   end
 
 end
