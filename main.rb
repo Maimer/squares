@@ -32,14 +32,23 @@ class Main < Gosu::Window
     draw_error_message if $error_message
   end
 
-  def button_down(key)
-    if key == Gosu::MsLeft
-
-    end
-    if key == Gosu::KbEscape
+  def button_down(id)
+    @board.button_down(id)
+    if id == Gosu::KbEscape
       close
     end
   end
+
+  # def button_down(id)
+  #   if id == Gosu::MsLeft
+  #     binding.pry
+  #     if within_field?(mouse_x, mouse_y)
+  #       square_x = (mouse_x - @origin) / (@board_image.width / 8)
+  #       square_y = (mouse_y - @origin) / (@board_image.height / 8)
+  #       @orange_tiles << [square_x, square_y]
+  #     end
+  #   end
+  # end
 
   def needs_cursor?
     true
