@@ -47,7 +47,7 @@ class Main < Gosu::Window
 
   def draw_error_message
     Drawing::draw_text(Drawing::text_center(self, $error_message, @error_font),
-                       SCREEN_HEIGHT / 2,
+                       @board.board_image.height / 2 + @board.origin / 2 - @error_font.height / 2,
                        $error_message,
                        @error_font,
                        Gosu::Color::RED)
