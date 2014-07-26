@@ -8,6 +8,7 @@ class Server
   def initialize(host, port)
     puts "Starting Server at #{host}:#{port}."
     @server = TCPServer.new(host, port)
+    @games = {}
 
     async.run
   end
@@ -26,10 +27,22 @@ class Server
     puts "#{user} has joined the server."
 
     loop do
-      if input = socket.readpartial(4096)
-        binding.pry
-      end
+      data = socket.readpartial(4096)
+      data = data.split('|')
+      if data && !data.empty?
+        begin
+          case data[0]
+          when 'join'
+            binding.pry
+          when 'move'
+
+          end
+        rescue
+        end
+
+
       # socket.write()
+      end
     end
   rescue EOFError
     puts "#{user} has left server."

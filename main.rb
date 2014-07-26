@@ -17,13 +17,12 @@ class Main < Gosu::Window
     self.caption = "Squares"
 
     @uuid = SecureRandom.uuid
-
     @client = Client.new(server, port)
     @board = Board.new(self)
     @error_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
     @state = :running
 
-    @client.send_message(['join', NAME, @uuid].join("|"))
+    @client.send_message(['join', NAME, @uuid].join('|'))
   end
 
   def update
