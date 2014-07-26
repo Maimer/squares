@@ -1,4 +1,5 @@
 require 'celluloid/io'
+require 'pry'
 
 class Server
   include Celluloid::IO
@@ -12,7 +13,7 @@ class Server
   end
 
   def shutdown
-      @server.close if @server
+    @server.close if @server
   end
 
   def run
@@ -25,8 +26,10 @@ class Server
     puts "#{user} has joined the server."
 
     loop do
-      socket.readpartial(4096)
-      socket.write()
+      if input = socket.readpartial(4096)
+        binding.pry
+      end
+      # socket.write()
     end
   rescue EOFError
     puts "#{user} has left server."
@@ -34,4 +37,13 @@ class Server
   end
 end
 
-server, port = ARGV[0] || "0.0.0.0", ARGV[1] || 1234
+server = ARGV[0] || "127.0.0.1"
+port = ARGV[1] || 1234
+
+supervisor = Server.supervise(server, port.to_i)
+trap("INT") do
+  supervisor.terminate
+  exit
+end
+
+sleep
