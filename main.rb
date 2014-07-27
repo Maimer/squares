@@ -2,7 +2,6 @@ require 'gosu'
 require 'celluloid/io'
 require 'socket'
 require 'randexp'
-require 'securerandom'
 require 'pry'
 
 require_relative 'settings'
@@ -16,13 +15,12 @@ class Main < Gosu::Window
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
     self.caption = "Squares"
 
-    @uuid = SecureRandom.uuid
     @client = Client.new(server, port)
     @board = Board.new(self)
     @error_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
     @state = :running
 
-    @client.send_message(['join', NAME, @uuid].join('|'))
+    @client.send_message(['join', NAME].join('|'))
   end
 
   def update
