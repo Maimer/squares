@@ -10,8 +10,6 @@ class Board
     @origin = (@window.width - @board_image.width) / 2
     @orange_tiles = []
     @blue_tiles = []
-    @opponent = ""
-    @score = [0, 0]
   end
 
   def update

@@ -11,7 +11,7 @@ require_relative 'helpers'
 
 class Main < Gosu::Window
 
-  attr_accessor :state, :turn, :move, :orange, :blue
+  attr_accessor :state, :turn, :move, :orange, :blue, :orange_score, :blue_score
 
   def initialize(server, port)
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
@@ -23,6 +23,8 @@ class Main < Gosu::Window
     @state = :waiting
     @orange = ""
     @blue = ""
+    @orange_score = 0
+    @blue_score = 0
     @move = false
     @turn = false
 
@@ -33,13 +35,33 @@ class Main < Gosu::Window
     if data = @client.read_message
       data = data.split('|')
       if data && !data.empty?
-
-        #update board, score, opponent name, state, turn
+        if data[0] == "waiting"
+          @state = :waiting
+          @orange = ""
+          @blue = ""
+          @orange_score = 0
+          @blue_score = 0
+          @move = false
+          @turn = false
+        elsif data[0] == "game"
+          @state = :running
+          @orange = data[1]
+          @blue = data[2]
+          @orange_score = data[3]
+          @blue_score = data[4]
+          data[5].each do |tile|
+            if tile.start_with?('O')
+              @board.orange_tiles << tile
+            else
+              @board.blue_tiles << tile
+            end
+          end
+        end
       end
     end
 
     if @move && @turn
-      @client.send_message(['move', square_x, square_y].join('|'))
+      @client.send_message(['move', @move].join('|'))
     else
       @client.send_message('wait')
     end

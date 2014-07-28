@@ -39,23 +39,26 @@ class Server
                 if player != user && data[1] == nil
                   @games << { orange: player,
                               blue: user,
-                              score: [0, 0],
-                              orange_tiles: [],
-                              blue_tiles: [] }
+                              orange_score: 0,
+                              blue_score: 0,
+                              tiles: [] }
                   @players[player][1] = @games.size - 1
                   @players[user][1] = @games.size - 1
                 end
               end
             end
           when 'move'
-            # record move
+            # check for valid move and record move
             # socket.write()
           when 'wait'
             if @players[user][1] != nil
               game = @players[user][1]
-              response = [@games[game][orange][0], @games[game][blue][0],
-                          @games[game][score], @games[game][orange_tiles],
-                          @games[game][blue_tiles]].join('|')
+              response = ['game',
+                          @games[game][orange][0],
+                          @games[game][blue][0],
+                          @games[game][orange_score],
+                          @games[game][blue_score],
+                          @games[game][tiles]].join('|')
               socket.write(response)
             else
               response = "waiting"
