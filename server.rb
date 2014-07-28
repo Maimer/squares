@@ -37,7 +37,11 @@ class Server
             if @players.size % 2 == 0
               @players.each do |player, data|
                 if player != user && data[1] == nil
-                  @games << { orange: player, blue: user, score: [0, 0], board: [] }
+                  @games << { orange: player,
+                              blue: user,
+                              score: [0, 0],
+                              orange_tiles: [],
+                              blue_tiles: [] }
                   @players[player][1] = @games.size - 1
                   @players[user][1] = @games.size - 1
                 end
@@ -47,7 +51,16 @@ class Server
             # record move
             # socket.write()
           when 'wait'
-            # check for new game or for opponent move
+            if @players[user][1] != nil
+              game = @players[user][1]
+              response = [@games[game][orange][0], @games[game][blue][0],
+                          @games[game][score], @games[game][orange_tiles],
+                          @games[game][blue_tiles]].join('|')
+              socket.write(response)
+            else
+              response = "waiting"
+              socket.write(response)
+            end
           end
         rescue
         end
