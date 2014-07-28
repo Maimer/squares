@@ -9,7 +9,7 @@ class Server
     puts "Starting Server at #{host}:#{port}."
     @server = TCPServer.new(host, port)
     @players = {}
-    @games = {}
+    @games = []
 
     async.run
   end
@@ -33,13 +33,21 @@ class Server
         begin
           case data[0]
           when 'join'
-            players[user] = data[1]
-            binding.pry
-
-            # look for open game or wait for opponent
+            @players[user] = [data[1], nil]
+            if @players.size % 2 == 0
+              @players.each do |player, data|
+                if player != user && data[1] == nil
+                  @games << { orange: player, blue: user, score: [0, 0], board: [] }
+                  @players[player][1] = @games.size - 1
+                  @players[user][1] = @games.size - 1
+                end
+              end
+            end
           when 'move'
             # record move
             # socket.write()
+          when 'wait'
+            # check for new game or for opponent move
           end
         rescue
         end
@@ -47,6 +55,8 @@ class Server
     end
   rescue EOFError
     puts "#{user} has left server."
+    @games.delete_at(@players[user][1])
+    @players.delete(user)
     socket.close
   end
 end
