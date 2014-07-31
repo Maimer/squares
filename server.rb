@@ -29,7 +29,8 @@ class Server
     puts "#{user} has joined the server."
 
     loop do
-      data = socket.readpartial(4096).split('|')
+      data = socket.readpartial(4096)
+      data = data.split('|')
       if data && !data.empty?
         begin
           case data[0]

@@ -32,44 +32,49 @@ class Main < Gosu::Window
   end
 
   def update
-    if data = @client.read_message
-      data = data.split('|')
-      if data && !data.empty?
-        if data[0] == "waiting"
-          @state = :waiting
-          @orange = ""
-          @blue = ""
-          @orange_score = 0
-          @blue_score = 0
-          @move = false
-          @turn = false
-          @board.tiles = []
-        elsif data[0] == "game"
-          @state = :running
-          @orange = data[1]
-          @blue = data[2]
-          @orange_score = data[3]
-          @blue_score = data[4]
-          if !data[5].nil?
-            data[5..-1].each do |tile|
-              @board.tiles << tile
+    begin
+      if @state == :running && @move && @turn
+        @client.send_message(['move', @move].join('|'))
+        @turn = false
+        @move = false
+      else
+        @client.send_message('wait')
+      end
+
+      if data = @client.read_message
+        data = data.split('|')
+        if data && !data.empty?
+          if data[0] == "waiting"
+            @state = :waiting
+            @orange = ""
+            @blue = ""
+            @orange_score = 0
+            @blue_score = 0
+            @move = false
+            @turn = false
+            @board.tiles = []
+          elsif data[0] == "game"
+            @state = :running
+            @orange = data[1]
+            @blue = data[2]
+            @orange_score = data[3]
+            @blue_score = data[4]
+            if !data[5].nil?
+              @board.tiles = []
+              data[5..-1].each do |tile|
+                @board.tiles << tile
+              end
+            end
+            if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
+              @turn = true
+            else
+              @turn = false
             end
           end
-          if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
-            @turn = true
-          else
-            @turn = false
-          end
         end
+        puts data
       end
-    end
-
-    if @state == :running && @move && @turn
-      @client.send_message(['move', @move].join('|'))
-      @turn = false
-      @move = false
-    else
-      @client.send_message('wait')
+    rescue
     end
   end
 
@@ -81,10 +86,16 @@ class Main < Gosu::Window
 
   def button_down(id)
     if id == Gosu::MsLeft
-      if within_field?(@window.mouse_x, @window.mouse_y)
-        square_x = ((@window.mouse_x - @origin) / (@board_image.width / 8)).to_i
-        square_y = ((@window.mouse_y - @origin) / (@board_image.height / 8)).to_i
-        if !@board.orange_tiles.include?([square_x, square_y]) || !@board.blue_tiles.include?([square_x, square_y])
+      if within_field?(mouse_x, mouse_y) && @state == :running
+        square_x = ((mouse_x - @board.origin) / (@board.board_image.width / 8)).to_i
+        square_y = ((mouse_y - @board.origin) / (@board.board_image.height / 8)).to_i
+        tile = square_y * 8 - 8 + square_x
+        if NAME == @orange
+          color = "O"
+        else
+          color = "B"
+        end
+        if !@board.tiles.include?(color + tile.to_s)
           @move = [square_x, square_y]
         end
       end
