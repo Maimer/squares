@@ -72,7 +72,6 @@ class Main < Gosu::Window
             end
           end
         end
-        puts data
       end
     rescue
     end
@@ -89,7 +88,7 @@ class Main < Gosu::Window
       if within_field?(mouse_x, mouse_y) && @state == :running
         square_x = ((mouse_x - @board.origin) / (@board.board_image.width / 8)).to_i
         square_y = ((mouse_y - @board.origin) / (@board.board_image.height / 8)).to_i
-        tile = square_y * 8 - 8 + square_x
+        tile = square_y * 8 + square_x
         if NAME == @orange
           color = "O"
         else

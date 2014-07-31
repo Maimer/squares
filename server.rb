@@ -44,39 +44,39 @@ class Server
                                      orange_score: 0,
                                      blue_score: 0,
                                      tiles: [] }
-                  @players[player][1] = @games[@count]
-                  @players[user][1] = @games[@count]
+                  @players[player][1] = @count
+                  @players[user][1] = @count
                   @count += 1
                 end
               end
             end
           when 'move'
-            move = data[2] * 8 - 8 + data[1]
+            move = data[2].to_i * 8 + data[1].to_i
             game = @players[user][1]
-            if @games[game][orange] == user
+            if @games[game][:orange] == @players[user][0]
               color = "O"
             else
               color = "B"
             end
-            if !@games[game][tiles].contains?(move)
-              @games[game][tiles] << color + move
+            if !@games[game][:tiles].include?(move)
+              @games[game][:tiles] << color + move.to_s
             end
             response = ["game",
-                        @games[game][orange],
-                        @games[game][blue],
-                        @games[game][orange_score],
-                        @games[game][blue_score],
-                        @games[game][tiles]].join('|')
+                        @games[game][:orange],
+                        @games[game][:blue],
+                        @games[game][:orange_score],
+                        @games[game][:blue_score],
+                        @games[game][:tiles]].join('|')
             socket.write(response)
           when 'wait'
             if @players[user][1] != nil
               game = @players[user][1]
-              response = ['game',
-                          @games[game][orange],
-                          @games[game][blue],
-                          @games[game][orange_score],
-                          @games[game][blue_score],
-                          @games[game][tiles]].join('|')
+              response = ["game",
+                          @games[game][:orange],
+                          @games[game][:blue],
+                          @games[game][:orange_score],
+                          @games[game][:blue_score],
+                          @games[game][:tiles]].join('|')
               socket.write(response)
             else
               response = "waiting"
