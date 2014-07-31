@@ -39,6 +39,7 @@ class Main < Gosu::Window
         @move = false
       else
         @client.send_message('wait')
+        @move = false
       end
 
       if data = @client.read_message
@@ -85,7 +86,7 @@ class Main < Gosu::Window
 
   def button_down(id)
     if id == Gosu::MsLeft
-      if within_field?(mouse_x, mouse_y) && @state == :running
+      if within_field?(mouse_x, mouse_y) && @turn
         square_x = ((mouse_x - @board.origin) / (@board.board_image.width / 8)).to_i
         square_y = ((mouse_y - @board.origin) / (@board.board_image.height / 8)).to_i
         tile = square_y * 8 + square_x

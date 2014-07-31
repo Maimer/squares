@@ -58,8 +58,9 @@ class Server
             else
               color = "B"
             end
-            if !@games[game][:tiles].include?(move)
-              @games[game][:tiles] << color + move.to_s
+            entry = color + move.to_s
+            if !@games[game][:tiles].include?(entry)
+              @games[game][:tiles] << entry
             end
             response = ["game",
                         @games[game][:orange],
@@ -89,6 +90,11 @@ class Server
     end
   rescue EOFError
     puts "#{user} has left server."
+    @players.each do |host, data|
+      if data[1] == @players[user][1]
+        @players[host][1] = nil
+      end
+    end
     @games.delete(@players[user][1])
     @players.delete(user)
     socket.close

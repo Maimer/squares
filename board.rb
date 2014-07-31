@@ -20,9 +20,10 @@ class Board
     @board_image.draw(@origin, @origin, 1)
 
     @tiles.each do |tile|
-      col = tile[1..-1].to_i / 8 + 1
-      row = tile[1..-1].to_i % 8 + 1
+      col = tile[1..-1].to_i / 8
+      row = tile[1..-1].to_i % 8
       if tile.start_with?('O')
+        # binding.pry
         @orange.draw(row * @orange.width + @origin,
                    col * @orange.height + @origin, 3)
       else
