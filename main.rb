@@ -55,7 +55,7 @@ class Main < Gosu::Window
               @board.tiles << tile
             end
           end
-          if @board.tiles.size % 2 == 0 && @orange == NAME
+          if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
             @turn = true
           else
             @turn = false
@@ -64,8 +64,10 @@ class Main < Gosu::Window
       end
     end
 
-    if @move && @turn
+    if @state == :running && @move && @turn
       @client.send_message(['move', @move].join('|'))
+      @turn = false
+      @move = false
     else
       @client.send_message('wait')
     end
