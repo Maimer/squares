@@ -49,13 +49,10 @@ class Main < Gosu::Window
           @blue = data[2]
           @orange_score = data[3]
           @blue_score = data[4]
-          data[5].each do |tile|
-            if tile.start_with?('O')
-              @board.orange_tiles << tile
-            else
-              @board.blue_tiles << tile
-            end
+          if !data[5].nil?
+            @board.tiles = data[5]
           end
+          #check to see which turn it is
         end
       end
     end

@@ -8,8 +8,7 @@ class Board
     @orange = Gosu::Image.new(window, 'images/orange_small.png')
     @blue = Gosu::Image.new(window, 'images/blue_small.png')
     @origin = (@window.width - @board_image.width) / 2
-    @orange_tiles = []
-    @blue_tiles = []
+    @tiles = []
   end
 
   def update
@@ -19,14 +18,16 @@ class Board
   def draw
     @board_image.draw(@origin, @origin, 1)
 
-    @orange_tiles.each do |tile|
-      @orange.draw(tile[0] * @orange.width + @origin,
-                   tile[1] * @orange.height + @origin, 3)
-    end
-
-    @blue_tiles.each do |tile|
-      @blue.draw(tile[0] * @blue.width + @origin,
-                 tile[1] * @blue.height + @origin, 3)
+    @tiles.each do |tile|
+      col = tile[1..-1] / 8 + 1
+      row = tile[1..-1] % 8 + 1
+      if tile.start_with?('O')
+        @orange.draw(row * @orange.width + @origin,
+                   col * @orange.height + @origin, 3)
+      else
+        @blue.draw(row * @blue.width + @origin,
+                 col * @blue.height + @origin, 3)
+      end
     end
   end
 end
