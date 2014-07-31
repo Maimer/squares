@@ -1,6 +1,7 @@
 class Board
 
-  attr_reader :board_image, :origin, :orange_tiles, :blue_tiles
+  attr_reader :board_image, :origin
+  attr_accessor :tiles
 
   def initialize(window)
     @window = window

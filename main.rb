@@ -43,6 +43,7 @@ class Main < Gosu::Window
           @blue_score = 0
           @move = false
           @turn = false
+          @board.tiles = []
         elsif data[0] == "game"
           @state = :running
           @orange = data[1]
@@ -50,9 +51,15 @@ class Main < Gosu::Window
           @orange_score = data[3]
           @blue_score = data[4]
           if !data[5].nil?
-            @board.tiles = data[5]
+            data[5..-1].each do |tile|
+              @board.tiles << tile
+            end
           end
-          #check to see which turn it is
+          if @board.tiles.size % 2 == 0 && @orange == NAME
+            @turn = true
+          else
+            @turn = false
+          end
         end
       end
     end
