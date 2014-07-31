@@ -9,7 +9,8 @@ class Server
     puts "Starting Server at #{host}:#{port}."
     @server = TCPServer.new(host, port)
     @players = {}
-    @games = []
+    @games = {}
+    @count = 1
 
     async.run
   end
@@ -37,25 +38,41 @@ class Server
             if @players.size % 2 == 0
               @players.each do |player, data|
                 if player != user && data[1] == nil
-                  @games << { orange: player,
-                              blue: user,
-                              orange_score: 0,
-                              blue_score: 0,
-                              tiles: [] }
-                  @players[player][1] = @games.size - 1
-                  @players[user][1] = @games.size - 1
+                  @games[@count] = { orange: data[0],
+                                     blue: @players[user][0],
+                                     orange_score: 0,
+                                     blue_score: 0,
+                                     tiles: [] }
+                  @players[player][1] = @games[@count]
+                  @players[user][1] = @games[@count]
+                  @count += 1
                 end
               end
             end
           when 'move'
-            # check for valid move and record move
-            # socket.write()
+            move = data[2] * 8 - 8 + data[1]
+            game = @players[user][1]
+            if @games[game][orange] == user
+              color = "O"
+            else
+              color = "B"
+            end
+            if !@games[game][tiles].contains?(move)
+              @games[game][tiles] << color + move
+            end
+            response = ["game",
+                        @games[game][orange],
+                        @games[game][blue],
+                        @games[game][orange_score],
+                        @games[game][blue_score],
+                        @games[game][tiles]].join('|')
+            socket.write(response)
           when 'wait'
             if @players[user][1] != nil
               game = @players[user][1]
               response = ['game',
-                          @games[game][orange][0],
-                          @games[game][blue][0],
+                          @games[game][orange],
+                          @games[game][blue],
                           @games[game][orange_score],
                           @games[game][blue_score],
                           @games[game][tiles]].join('|')
@@ -71,7 +88,7 @@ class Server
     end
   rescue EOFError
     puts "#{user} has left server."
-    @games.delete_at(@players[user][1])
+    @games.delete(@players[user][1])
     @players.delete(user)
     socket.close
   end
