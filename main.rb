@@ -94,6 +94,10 @@ class Main < Gosu::Window
                        @player_font,
                        Gosu::Color::BLUE)
 
+    if @board.tiles.size > 12
+      binding.pry
+    end
+
     draw_error_message if $error_message
   end
 
