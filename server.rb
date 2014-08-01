@@ -1,6 +1,8 @@
 require 'celluloid/io'
 require 'pry'
 
+require_relative 'server_helpers'
+
 class Server
   include Celluloid::IO
   finalizer :shutdown
@@ -61,6 +63,7 @@ class Server
             entry = color + move.to_s
             if !@games[game][:tiles].include?(entry)
               @games[game][:tiles] << entry
+              scores = check_squares(@games[game][:tiles], entry)
             end
             response = ["game",
                         @games[game][:orange],
