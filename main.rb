@@ -20,9 +20,10 @@ class Main < Gosu::Window
     @client = Client.new(server, port)
     @board = Board.new(self)
     @error_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
+    @player_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
     @state = :waiting
-    @orange = ""
-    @blue = ""
+    @orange = "Player 1"
+    @blue = "Player 2"
     @orange_score = 0
     @blue_score = 0
     @move = false
@@ -47,8 +48,8 @@ class Main < Gosu::Window
         if data && !data.empty?
           if data[0] == "waiting"
             @state = :waiting
-            @orange = ""
-            @blue = ""
+            @orange = "Player 1"
+            @blue = "Player 2"
             @orange_score = 0
             @blue_score = 0
             @move = false
@@ -80,6 +81,18 @@ class Main < Gosu::Window
 
   def draw
     @board.draw
+
+    Drawing::draw_text(@board.origin,
+                       @board.board_image.height + @board.origin * 2,
+                       "#{@orange}: #{@orange_score}",
+                       @player_font,
+                       Gosu::Color.argb(0xFFff5b00))
+
+    Drawing::draw_text(@board.origin,
+                       @board.board_image.height + @board.origin * 3 + @player_font.height,
+                       "#{@blue}: #{@blue_score}",
+                       @player_font,
+                       Gosu::Color::BLUE)
 
     draw_error_message if $error_message
   end
