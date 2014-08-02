@@ -63,7 +63,12 @@ class Server
             entry = color + move.to_s
             if !@games[game][:tiles].include?(entry)
               @games[game][:tiles] << entry
-              # scores = check_squares(@games[game][:tiles])
+              score_update = check_squares(@games[game][:tiles])
+              if color == "O"
+                @games[game][:orange_score] += score_update
+              else
+                @games[game][:blue_score] += score_update
+              end
             end
             response = ["game",
                         @games[game][:orange],
