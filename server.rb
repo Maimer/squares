@@ -98,9 +98,10 @@ class Server
     end
   rescue EOFError
     puts "#{user} has left server."
-    @games.delete(@players[user][1])
+    game = @players[user][1]
+    @games.delete(game)
     @players.each do |host, data|
-      if data[1] == @players[user][1]
+      if data[1] == game
         @players[host][1] = nil
       end
     end

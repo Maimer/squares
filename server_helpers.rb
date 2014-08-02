@@ -7,7 +7,7 @@ def check_squares(board)
   last = tiles.pop
   score = 0
 
-  tiles.each_with_index do |tile, i|
+  tiles.each do |tile|
     diff_x = tile[0] - last[0]
     diff_y = tile[1] - last[1]
     if tiles.include?([tile[0] - diff_y, tile[1] + diff_x]) &&

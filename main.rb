@@ -33,6 +33,8 @@ class Main < Gosu::Window
   end
 
   def update
+    @board.update
+
     begin
       if @state == :running && @move && @turn
         @client.send_message(['move', @move].join('|'))
