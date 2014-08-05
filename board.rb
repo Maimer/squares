@@ -1,6 +1,6 @@
 class Board
 
-  attr_reader :board_image, :origin
+  attr_reader :board_image, :origin, :orange, :blue
   attr_accessor :tiles
 
   def initialize(window)
@@ -40,15 +40,18 @@ class Board
     end
 
     @squares.each do |square|
-      square[0] == "O" ? color = Gosu::Color.argb(0xFFff5b00) : color = Gosu::Color::BLUE
+      square[0] == "O" ? color = Gosu::Color.argb(0xFFff5b00) : color = Gosu::Color.argb(0xFF002bff)
       4.times do |i|
         s = square[1..-1].rotate(i)
-        # binding.pry
         x1 = s[0][0] * @orange.width + (@orange.width / 2) + @origin
         y1 = s[0][1] * @orange.height + (@orange.width / 2) + @origin
         x2 = s[1][0] * @orange.width + (@orange.width / 2) + @origin
         y2 = s[1][1] * @orange.height + (@orange.width / 2) + @origin
         @window.draw_line(x1, y1, color, x2, y2, color, 2)
+        # @window.draw_quad(x1, y1+10, color,
+        #                   x2, y2+10, color,
+        #                   x1, y1-10, color,
+        #                   x2, y2-10, color, 2)
       end
     end
   end

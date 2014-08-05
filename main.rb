@@ -20,7 +20,7 @@ class Main < Gosu::Window
     @client = Client.new(server, port)
     @board = Board.new(self)
     @error_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
-    @player_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
+    @player_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 18)
     @state = :waiting
     @orange = "Player 1"
     @blue = "Player 2"
@@ -28,6 +28,8 @@ class Main < Gosu::Window
     @blue_score = 0
     @move = false
     @turn = false
+    @turn_color = Gosu::Color.argb(0xffffffff)
+    @not_turn_color = Gosu::Color.argb(0x99ffffff)
 
     @client.send_message(['join', NAME].join('|'))
   end
@@ -84,17 +86,39 @@ class Main < Gosu::Window
   def draw
     @board.draw
 
-    Drawing::draw_text(@board.origin,
-                       @board.board_image.height + @board.origin * 2,
+    @board.orange.draw(@board.origin, @board.board_image.height + @board.origin * 1.5, 3)
+    @board.blue.draw(@board.origin, @board.board_image.height + @board.origin * 3 + @error_font.height, 3)
+
+    if @turn && @state == :running
+      my_color = @turn_color
+      opponent_color = @not_turn_color
+    elsif @state == :running
+      my_color = @not_turn_color
+      opponent_color = @turn_color
+    end
+
+    if @orange == NAME
+      color1 = my_color
+      color2 = opponent_color
+    elsif @blue == NAME
+      color1 = opponent_color
+      color2 = my_color
+    else
+      color1 = @not_turn_color
+      color2 = @not_turn_color
+    end
+
+    Drawing::draw_text(@board.origin + @board.orange.width,
+                       @board.board_image.height + @board.origin * 1.5,
                        "#{@orange}: #{@orange_score}",
                        @player_font,
-                       Gosu::Color.argb(0xFFff5b00))
+                       color1)
 
-    Drawing::draw_text(@board.origin,
-                       @board.board_image.height + @board.origin * 3 + @player_font.height,
+    Drawing::draw_text(@board.origin + @board.blue.width,
+                       @board.board_image.height + @board.origin * 3 + @error_font.height,
                        "#{@blue}: #{@blue_score}",
                        @player_font,
-                       Gosu::Color::BLUE)
+                       color2)
 
     draw_error_message if $error_message
   end
