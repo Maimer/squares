@@ -23,6 +23,7 @@ class Main < Gosu::Window
     @timer = nil
     @error_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
     @player_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 18)
+    @gameover_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 12)
     @state = :waiting
     @orange = "Player 1"
     @blue = "Player 2"
@@ -121,6 +122,21 @@ class Main < Gosu::Window
     else
       color1 = @not_turn_color
       color2 = @not_turn_color
+    end
+
+    if @state == :gameover
+      if (@orange_score >= 150 && @orange == NAME) || (@blue_score >= 150 && @blue == NAME)
+        message = "You Win!"
+      else
+        message = "You Lose!"
+      end
+
+      Drawing::draw_text(Drawing::text_center(self, message, @gameover_font),
+                         @board.board_image.height / 2 + @board.origin / 2 - @gameover_font.height / 2,
+                         message,
+                         @gameover_font,
+                         Gosu::Color::RED)
+      Drawing::draw_rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x77000000)
     end
 
     Drawing::draw_text(@board.origin + @board.orange.width,
