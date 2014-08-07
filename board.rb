@@ -48,10 +48,14 @@ class Board
         x2 = s[1][0] * @orange.width + (@orange.width / 2) + @origin
         y2 = s[1][1] * @orange.height + (@orange.width / 2) + @origin
         @window.draw_line(x1, y1, color, x2, y2, color, 2)
-        # @window.draw_quad(x1, y1+10, color,
-        #                   x2, y2+10, color,
-        #                   x1, y1-10, color,
-        #                   x2, y2-10, color, 2)
+        # @window.draw_quad(x1, y1+5, color,
+        #                   x2, y2+5, color,
+        #                   x1, y1-5, color,
+        #                   x2, y2-5, color, 2)
+        # @window.draw_quad(x1+5, y1, color,
+        #                   x2+5, y2, color,
+        #                   x1-5, y1, color,
+        #                   x2-5, y2, color, 2)
       end
     end
   end

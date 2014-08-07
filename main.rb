@@ -8,6 +8,7 @@ require_relative 'settings'
 require_relative 'client'
 require_relative 'board'
 require_relative 'helpers'
+require_relative 'timer'
 
 class Main < Gosu::Window
 
@@ -19,6 +20,7 @@ class Main < Gosu::Window
 
     @client = Client.new(server, port)
     @board = Board.new(self)
+    @timer = nil
     @error_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 16)
     @player_font = Gosu::Font.new(self, "Tahoma", SCREEN_HEIGHT / 18)
     @state = :waiting
@@ -71,10 +73,23 @@ class Main < Gosu::Window
                 @board.tiles << tile
               end
             end
-            if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
-              @turn = true
+            if @orange_score < 150 && @blue_score < 150
+              if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
+                @turn = true
+              else
+                @turn = false
+              end
             else
               @turn = false
+              @state = :gameover
+              if @timer == nil
+                @timer = Timer.new
+              else
+                @timer.update
+                if @timer.seconds > 15
+                  close
+                end
+              end
             end
           end
         end
