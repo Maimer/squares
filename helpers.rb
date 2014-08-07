@@ -3,8 +3,8 @@ module Drawing
     font.draw(text, x, y, 20, 1, 1, color)
   end
 
-  def self.draw_rect(x, y, width, height, color)
-    draw_quad(x, y, color, x + width, y, color, x + width,
+  def self.draw_rect(window, x, y, width, height, color)
+    window.draw_quad(x, y, color, x + width, y, color, x + width,
               y + height, color, x, y + height, color, 10)
   end
 

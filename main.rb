@@ -74,7 +74,7 @@ class Main < Gosu::Window
                 @board.tiles << tile
               end
             end
-            if @orange_score < 150 && @blue_score < 150
+            if @orange_score.to_i < 50 && @blue_score.to_i < 50
               if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
                 @turn = true
               else
@@ -113,10 +113,10 @@ class Main < Gosu::Window
       opponent_color = @turn_color
     end
 
-    if @orange == NAME
+    if @orange == NAME && @state == :running
       color1 = my_color
       color2 = opponent_color
-    elsif @blue == NAME
+    elsif @blue == NAME && @state == :running
       color1 = opponent_color
       color2 = my_color
     else
@@ -125,7 +125,7 @@ class Main < Gosu::Window
     end
 
     if @state == :gameover
-      if (@orange_score >= 150 && @orange == NAME) || (@blue_score >= 150 && @blue == NAME)
+      if (@orange_score.to_i >= 50 && @orange == NAME) || (@blue_score.to_i >= 50 && @blue == NAME)
         message = "You Win!"
       else
         message = "You Lose!"
@@ -136,7 +136,12 @@ class Main < Gosu::Window
                          message,
                          @gameover_font,
                          Gosu::Color::RED)
-      Drawing::draw_rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x77000000)
+      Drawing::draw_rect(self,
+                         @board.origin,
+                         @board.origin,
+                         @board.board_image.width,
+                         @board.board_image.height,
+                         0x77000000)
     end
 
     Drawing::draw_text(@board.origin + @board.orange.width,

@@ -1,11 +1,11 @@
 class Timer
-  attr_reader :hours, :minutes, :seconds, :frames
+  attr_reader :hours, :minutes, :seconds
 
   def initialize
     @hours = 0
     @minutes = 0
     @seconds = 0
-    @last_time = 0
+    @last_time = Gosu::milliseconds()
   end
 
   def update
