@@ -63,15 +63,17 @@ class Main < Gosu::Window
             @turn = false
             @board.tiles = []
           elsif data[0] == "game"
-            @state = :running
-            @orange = data[1]
-            @blue = data[2]
-            @orange_score = data[3]
-            @blue_score = data[4]
-            if !data[5].nil?
-              @board.tiles = []
-              data[5..-1].each do |tile|
-                @board.tiles << tile
+            if @state != :gameover
+              @state = :running
+              @orange = data[1]
+              @blue = data[2]
+              @orange_score = data[3]
+              @blue_score = data[4]
+              if !data[5].nil?
+                @board.tiles = []
+                data[5..-1].each do |tile|
+                  @board.tiles << tile
+                end
               end
             end
             if @orange_score.to_i < 50 && @blue_score.to_i < 50
