@@ -148,13 +148,25 @@ class Main < Gosu::Window
 
     Drawing::draw_text(@board.origin + @board.orange.width,
                        @board.board_image.height + @board.origin * 1.5,
-                       "#{@orange}: #{@orange_score}",
+                       "#{@orange}",
+                       @player_font,
+                       color1)
+
+    Drawing::draw_text(SCREEN_WIDTH - @board.origin - @player_font.text_width("#{@orange_score}"),
+                       @board.board_image.height + @board.origin * 1.5,
+                       "#{@orange_score}",
                        @player_font,
                        color1)
 
     Drawing::draw_text(@board.origin + @board.blue.width,
                        @board.board_image.height + @board.origin * 3 + @error_font.height,
-                       "#{@blue}: #{@blue_score}",
+                       "#{@blue}",
+                       @player_font,
+                       color2)
+
+    Drawing::draw_text(SCREEN_WIDTH - @board.origin - @player_font.text_width("#{@blue_score}"),
+                       @board.board_image.height + @board.origin * 3 + @error_font.height,
+                       "#{@blue_score}",
                        @player_font,
                        color2)
 
