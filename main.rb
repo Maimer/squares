@@ -76,7 +76,7 @@ class Main < Gosu::Window
                 end
               end
             end
-            if @orange_score.to_i < 50 && @blue_score.to_i < 50
+            if @orange_score.to_i < 150 && @blue_score.to_i < 150
               if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
                 @turn = true
               else
@@ -161,9 +161,17 @@ class Main < Gosu::Window
     Drawing::draw_rect(self,
                        @board.origin + @board.orange.width,
                        @board.board_image.height + @board.origin * 2 + 30,
-                       @orange_score.to_i * 2.5 < 150 ? @orange_score.to_i * 2.5 : 375,
+                       @orange_score.to_i < 150 ? @orange_score.to_i * 2.5 : 375,
                        10,
                        0xFFff5b00)
+
+    coords = [@board.origin + @board.orange.width,
+              @board.board_image.height + @board.origin * 2 + 30]
+
+    draw_line(coords[0], coords[1], Gosu::Color::WHITE, coords[0]+375, coords[1], Gosu::Color::WHITE, 11)
+    draw_line(coords[0]+375, coords[1], Gosu::Color::WHITE, coords[0]+375, coords[1]+10, Gosu::Color::WHITE, 11)
+    draw_line(coords[0], coords[1]+10, Gosu::Color::WHITE, coords[0]+375, coords[1]+10, Gosu::Color::WHITE, 11)
+    draw_line(coords[0], coords[1], Gosu::Color::WHITE, coords[0], coords[1]+10, Gosu::Color::WHITE, 11)
 
     Drawing::draw_text(@board.origin + @board.blue.width,
                        @board.board_image.height + @board.origin * 3 + @error_font.height,
@@ -180,9 +188,17 @@ class Main < Gosu::Window
     Drawing::draw_rect(self,
                        @board.origin + @board.orange.width,
                        @board.board_image.height + @board.origin * 3 + @error_font.height + 40,
-                       @blue_score.to_i * 2.5 < 150 ? @blue_score.to_i * 2.5 : 375,
+                       @blue_score.to_i < 150 ? @blue_score.to_i * 2.5 : 375,
                        10,
                        0xFF002bff)
+
+    coords = [@board.origin + @board.orange.width,
+              @board.board_image.height + @board.origin * 3 + @error_font.height + 40]
+
+    draw_line(coords[0], coords[1], Gosu::Color::WHITE, coords[0]+375, coords[1], Gosu::Color::WHITE, 11)
+    draw_line(coords[0]+375, coords[1], Gosu::Color::WHITE, coords[0]+375, coords[1]+10, Gosu::Color::WHITE, 11)
+    draw_line(coords[0], coords[1]+10, Gosu::Color::WHITE, coords[0]+375, coords[1]+10, Gosu::Color::WHITE, 11)
+    draw_line(coords[0], coords[1], Gosu::Color::WHITE, coords[0], coords[1]+10, Gosu::Color::WHITE, 11)
 
     draw_error_message if $error_message
   end
