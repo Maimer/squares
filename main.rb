@@ -127,7 +127,7 @@ class Main < Gosu::Window
     end
 
     if @state == :gameover
-      if (@orange_score.to_i >= 50 && @orange == NAME) || (@blue_score.to_i >= 50 && @blue == NAME)
+      if (@orange_score.to_i >= 150 && @orange == NAME) || (@blue_score.to_i >= 150 && @blue == NAME)
         message = "You Win!"
       else
         message = "You Lose!"
@@ -152,11 +152,18 @@ class Main < Gosu::Window
                        @player_font,
                        color1)
 
-    Drawing::draw_text(SCREEN_WIDTH - @board.origin - @player_font.text_width("#{@orange_score}"),
+    Drawing::draw_text(SCREEN_WIDTH - 64 - @player_font.text_width("#{@orange_score}"),
                        @board.board_image.height + @board.origin * 1.5,
                        "#{@orange_score}",
                        @player_font,
                        color1)
+
+    Drawing::draw_rect(self,
+                       @board.origin + @board.orange.width,
+                       @board.board_image.height + @board.origin * 2 + 30,
+                       @orange_score.to_i * 2.5 < 150 ? @orange_score.to_i * 2.5 : 375,
+                       10,
+                       0xFFff5b00)
 
     Drawing::draw_text(@board.origin + @board.blue.width,
                        @board.board_image.height + @board.origin * 3 + @error_font.height,
@@ -164,11 +171,18 @@ class Main < Gosu::Window
                        @player_font,
                        color2)
 
-    Drawing::draw_text(SCREEN_WIDTH - @board.origin - @player_font.text_width("#{@blue_score}"),
+    Drawing::draw_text(SCREEN_WIDTH - 64 - @player_font.text_width("#{@blue_score}"),
                        @board.board_image.height + @board.origin * 3 + @error_font.height,
                        "#{@blue_score}",
                        @player_font,
                        color2)
+
+    Drawing::draw_rect(self,
+                       @board.origin + @board.orange.width,
+                       @board.board_image.height + @board.origin * 3 + @error_font.height + 40,
+                       @blue_score.to_i * 2.5 < 150 ? @blue_score.to_i * 2.5 : 375,
+                       10,
+                       0xFF002bff)
 
     draw_error_message if $error_message
   end
