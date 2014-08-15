@@ -102,6 +102,11 @@ class Main < Gosu::Window
   end
 
   def draw
+    draw_quad(0, 0, Gosu::Color::BLACK,
+              SCREEN_WIDTH, 0, Gosu::Color::BLACK,
+              SCREEN_WIDTH, SCREEN_HEIGHT, 0xFF555555,
+              0, SCREEN_HEIGHT, 0xFF555555, 0)
+
     @board.draw
 
     @board.orange.draw(@board.origin, @board.board_image.height + @board.origin * 1.5, 3)
