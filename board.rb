@@ -27,7 +27,7 @@ class Board
   end
 
   def draw
-    @board_image.draw(@origin, @origin, 1)
+    @board_image.draw(@origin, @origin, 0)
 
     @tiles.each do |tile|
       col = tile[1..-1].to_i / 8
