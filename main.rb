@@ -9,6 +9,7 @@ require_relative 'client'
 require_relative 'board'
 require_relative 'helpers'
 require_relative 'timer'
+require_relative 'square_animation'
 
 class Main < Gosu::Window
 
@@ -62,6 +63,7 @@ class Main < Gosu::Window
             @move = false
             @turn = false
             @board.tiles = []
+            @board.square_animations = []
           elsif data[0] == "game"
             if @state != :gameover
               @state = :running

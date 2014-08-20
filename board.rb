@@ -1,7 +1,7 @@
 class Board
 
   attr_reader :board_image, :origin, :orange, :blue
-  attr_accessor :tiles
+  attr_accessor :tiles, :square_animations
 
   def initialize(window)
     @window = window
@@ -11,6 +11,7 @@ class Board
     @origin = (@window.width - @board_image.width) / 2
     @tiles = []
     @squares = []
+    @square_animations = []
     @tiles_size = 0
   end
 
@@ -22,6 +23,7 @@ class Board
       @squares = []
       @tiles_size = 0
     end
+    @square_animations.each { |anim| anim.update }
   end
 
   def draw
@@ -58,6 +60,8 @@ class Board
         #                   x2-5, y2, color, 2)
       end
     end
+
+    @square_animations.each { |anim| anim.draw }
   end
 
   def update_squares
@@ -75,6 +79,10 @@ class Board
          @squares << [color, last, tile,
                      [tile[0] - diff_y, tile[1] + diff_x],
                      [last[0] - diff_y, last[1] + diff_x]]
+         @square_animations << SquareAnimation.new(@window, last, tile,
+                                                  [tile[0] - diff_y, tile[1] + diff_x],
+                                                  [last[0] - diff_y, last[1] + diff_x],
+                                                  color, self)
       end
     end
   end
