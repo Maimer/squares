@@ -6,6 +6,7 @@ class Board
   def initialize(window)
     @window = window
     @board_image = Gosu::Image.new(window, 'images/board_small.png')
+    @border = Gosu::Image.new(window, 'images/border_small1.png')
     @orange = Gosu::Image.new(window, 'images/orange_small.png')
     @blue = Gosu::Image.new(window, 'images/blue_small.png')
     @origin = (@window.width - @board_image.width) / 2
@@ -27,7 +28,8 @@ class Board
   end
 
   def draw
-    @board_image.draw(@origin, @origin, 0)
+    # @board_image.draw(@origin, @origin, 0)
+    @border.draw(@origin - 10, @origin - 10, 1)
 
     @tiles.each do |tile|
       col = tile[1..-1].to_i / 8
@@ -50,14 +52,6 @@ class Board
         x2 = s[1][0] * @orange.width + (@orange.width / 2) + @origin
         y2 = s[1][1] * @orange.height + (@orange.width / 2) + @origin
         @window.draw_line(x1, y1, color, x2, y2, color, 2)
-        # @window.draw_quad(x1, y1+5, color,
-        #                   x2, y2+5, color,
-        #                   x1, y1-5, color,
-        #                   x2, y2-5, color, 2)
-        # @window.draw_quad(x1+5, y1, color,
-        #                   x2+5, y2, color,
-        #                   x1-5, y1, color,
-        #                   x2-5, y2, color, 2)
       end
     end
 

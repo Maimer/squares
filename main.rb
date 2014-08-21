@@ -111,7 +111,7 @@ class Main < Gosu::Window
 
     @board.draw
 
-    @board.orange.draw(@board.origin, @board.board_image.height + @board.origin * 1.5, 3)
+    @board.orange.draw(@board.origin, @board.board_image.height + @board.origin * 1.5 + 10, 3)
     @board.blue.draw(@board.origin, @board.board_image.height + @board.origin * 3 + @error_font.height, 3)
 
     if @turn && @state == :running
@@ -154,26 +154,26 @@ class Main < Gosu::Window
     end
 
     Drawing::draw_text(@board.origin + @board.orange.width,
-                       @board.board_image.height + @board.origin * 1.5,
+                       @board.board_image.height + @board.origin * 1.5 + 10,
                        "#{@orange}",
                        @player_font,
                        color1)
 
     Drawing::draw_text(SCREEN_WIDTH - 64 - @player_font.text_width("#{@orange_score}"),
-                       @board.board_image.height + @board.origin * 1.5,
+                       @board.board_image.height + @board.origin * 1.5 + 10,
                        "#{@orange_score}",
                        @player_font,
                        color1)
 
     Drawing::draw_rect(self,
                        @board.origin + @board.orange.width,
-                       @board.board_image.height + @board.origin * 2 + 30,
+                       @board.board_image.height + @board.origin * 2 + 40,
                        @orange_score.to_i < 150 ? @orange_score.to_i * 2.5 : 375,
                        10,
                        0xFFff5b00)
 
     coords = [@board.origin + @board.orange.width,
-              @board.board_image.height + @board.origin * 2 + 30]
+              @board.board_image.height + @board.origin * 2 + 40]
 
     draw_line(coords[0], coords[1], Gosu::Color::WHITE, coords[0]+375, coords[1], Gosu::Color::WHITE, 11)
     draw_line(coords[0]+375, coords[1], Gosu::Color::WHITE, coords[0]+375, coords[1]+10, Gosu::Color::WHITE, 11)

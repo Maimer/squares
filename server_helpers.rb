@@ -1,5 +1,3 @@
-# require 'pry'
-
 def check_squares(board)
   color = board.last[0]
   tiles = board.reject { |tile| !tile.start_with?(color) }
@@ -20,9 +18,3 @@ def check_squares(board)
   end
   score
 end
-
-# c = ["O0", "B63", "O3", "B47", "O24", "B61", "O54", "B38", "B50", "O30", "B43", "O6", "B7", "O51", "O48"]
-
-# # "O27"
-
-# check_squares(c)
