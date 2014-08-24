@@ -14,14 +14,18 @@ class SquareAnimation
     @p4 = [p4[0] * @board.orange.width + (@board.orange.width / 2) + @board.origin,
            p4[1] * @board.orange.height + (@board.orange.height / 2) + @board.origin]
     color == "O" ? @color = Gosu::Color.argb(100, 255, 91, 0) : @color = Gosu::Color.argb(100, 0, 43, 255)
+    @font_color = Gosu::Color.argb(255, 255, 255, 255)
     @time = Gosu::milliseconds
   end
 
   def update
     if Gosu::milliseconds - @time > 1500
       alpha = (100 - ((Gosu::milliseconds - @time - 1500) / 20))
+      font_alpha = (255 - ((Gosu::milliseconds - @time - 1500) / 8))
       if alpha < 0 then alpha = 0 end
+      if font_alpha < 0 then font_alpha = 0 end
       @color.alpha = alpha
+      @font_color.alpha = font_alpha
     end
   end
 
@@ -33,7 +37,7 @@ class SquareAnimation
                          square_y - @score_font.height / 2 - 5,
                          @message,
                          @score_font,
-                         Gosu::Color::WHITE)
+                         @font_color)
     @window.draw_quad(@p1[0], @p1[1], @color,
                       @p2[0], @p2[1], @color,
                       @p3[0], @p3[1], @color,
