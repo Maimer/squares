@@ -78,13 +78,8 @@ class Main < Gosu::Window
                 end
               end
             end
-            if @orange_score.to_i < 150 && @blue_score.to_i < 150
-              if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
-                @turn = true
-              else
-                @turn = false
-              end
-            else
+            if (@orange_score.to_i >= 150 || @blue_score.to_i >= 150) &&
+               (@orange_score.to_i - @blue_score.to_i).abs > 15
               @turn = false
               @state = :gameover
               if @timer == nil
@@ -94,6 +89,12 @@ class Main < Gosu::Window
                 if @timer.seconds > 15
                   close
                 end
+              end
+            else
+              if (@board.tiles.size % 2 == 0 && @orange == NAME) || (@board.tiles.size % 2 != 0 && @blue == NAME)
+                @turn = true
+              else
+                @turn = false
               end
             end
           end
@@ -134,7 +135,8 @@ class Main < Gosu::Window
     end
 
     if @state == :gameover
-      if (@orange_score.to_i >= 150 && @orange == NAME) || (@blue_score.to_i >= 150 && @blue == NAME)
+      if (@orange_score.to_i > @blue_score.to_i && @orange == NAME) ||
+         (@blue_score.to_i > @orange_score.to_i && @blue == NAME)
         message = "You Win!"
       else
         message = "You Lose!"
