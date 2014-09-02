@@ -2,7 +2,6 @@ require 'gosu'
 require 'celluloid/io'
 require 'socket'
 require 'randexp'
-require 'pry'
 
 require_relative 'settings'
 require_relative 'client'
