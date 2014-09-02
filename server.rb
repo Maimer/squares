@@ -1,5 +1,4 @@
 require 'celluloid/io'
-require 'pry'
 
 require_relative 'server_helpers'
 
