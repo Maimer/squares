@@ -9,6 +9,8 @@ class Board
     @border = Gosu::Image.new(window, 'images/border_small1.png')
     @orange = Gosu::Image.new(window, 'images/orange_small.png')
     @blue = Gosu::Image.new(window, 'images/blue_small.png')
+    @orange_glow = Gosu::Image.new(window, 'images/orange_glow.png')
+    @blue_glow = Gosu::Image.new(window, 'images/blue_glow.png')
     @origin = (@window.width - @board_image.width) / 2
     @tiles = []
     @squares = []
@@ -28,7 +30,6 @@ class Board
   end
 
   def draw
-    # @board_image.draw(@origin, @origin, 0)
     @border.draw(@origin - 10, @origin - 10, 1)
 
     @tiles.each do |tile|
@@ -36,10 +37,18 @@ class Board
       row = tile[1..-1].to_i % 8
       if tile.start_with?('O')
         @orange.draw(row * @orange.width + @origin,
-                   col * @orange.height + @origin, 3)
+                     col * @orange.height + @origin, 3)
+        if tile == @tiles.last
+          @orange_glow.draw(row * @orange.width + @origin + 4,
+                            col * @orange.height + @origin + 4, 2)
+        end
       else
         @blue.draw(row * @blue.width + @origin,
-                 col * @blue.height + @origin, 3)
+                   col * @blue.height + @origin, 3)
+        if tile == @tiles.last
+          @blue_glow.draw(row * @blue.width + @origin + 4,
+                          col * @blue.height + @origin + 4, 2)
+        end
       end
     end
 
