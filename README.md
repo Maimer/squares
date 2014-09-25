@@ -40,12 +40,12 @@ Close: Escape
 
 ####Sample Gameplay:
 
-![Squares 1]()
+![Squares 1](https://raw.githubusercontent.com/Maimer/squares/master/screenshots/squares1.png)
 
 ####Sample Gameplay:
 
-![Squares 2]()
+![Squares 2](https://raw.githubusercontent.com/Maimer/squares/master/screenshots/squares2.png)
 
 ####Sample Gameplay:
 
-![Squares 3]()
+![Squares 3](https://raw.githubusercontent.com/Maimer/squares/master/screenshots/squares3.png)
