@@ -222,7 +222,7 @@ class Main < Gosu::Window
         else
           color = "B"
         end
-        if !@board.tiles.include?(color + tile.to_s)
+        if !@board.tiles.include?("O" + tile.to_s) && !@board.tiles.include?("B" + tile.to_s)
           @move = [square_x, square_y]
         end
       end

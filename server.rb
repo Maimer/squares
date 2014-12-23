@@ -60,7 +60,7 @@ class Server
               color = "B"
             end
             entry = color + move.to_s
-            if !@games[game][:tiles].include?(entry)
+            if !@games[game][:tiles].include?("O" + move.to_s) && !@games[game][:tiles].include?("B" + move.to_s)
               @games[game][:tiles] << entry
               score_update = check_squares(@games[game][:tiles])
               if color == "O"
