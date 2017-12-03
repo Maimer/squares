@@ -1,4 +1,4 @@
-#SQUARES
+# SQUARES
 
 Created by Nicholas Lee
 
@@ -8,7 +8,7 @@ The rules are fairly simple.  The game is a turn based board game that has two p
 
 ==========
 
-####Hosting a Server
+#### Hosting a Server
 
 Hosting a server is easy and the matchmaking is handled internally on the server, so many players can connect and play at the same time without having to worry about games conflicting with each other.  If you run a server on a local network, you merely need to setup port forwarding on your router in order to play opponents that are not on your local network.  The commands for running a server are as follows:
 
@@ -18,7 +18,7 @@ Replace YOUR_IP_ADDRESS and YOUR_PORT with your own IP address and port.
 
 ==========
 
-####Launching the Game
+#### Launching the Game
 
 In order to launch the game, you will need to either be hosting a server yourself or know the address of a server being hosted elsewhere.  If you fail to enter the correct commands when launching the game you will get an error in game telling you that the program failed to find the game server.  The commands for launching the game are as follows:
 
@@ -30,7 +30,7 @@ Once the server has matched you with an opponent you will then see both your nam
 
 ==========
 
-####Game Controls:
+#### Game Controls:
 
 Place Tile: Left Click
 
@@ -38,14 +38,14 @@ Close: Escape
 
 ==========
 
-####Sample Gameplay:
+#### Sample Gameplay:
 
 ![Squares 1](https://raw.githubusercontent.com/Maimer/squares/master/screenshots/squares1.png)
 
-####Sample Gameplay:
+#### Sample Gameplay:
 
 ![Squares 2](https://raw.githubusercontent.com/Maimer/squares/master/screenshots/squares2.png)
 
-####Sample Gameplay:
+#### Sample Gameplay:
 
 ![Squares 3](https://raw.githubusercontent.com/Maimer/squares/master/screenshots/squares3.png)
